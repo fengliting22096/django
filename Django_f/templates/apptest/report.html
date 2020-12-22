@@ -1,0 +1,73 @@
+<html lang="zh-CN">
+<head>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<title>产品自动化测试报告管理平台</title>
+</head>
+<body role="document">
+<!-- 导航栏-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+<div class="container">
+<a class="navbar-brand" href="#">&nbsp;</a>
+<ul class="nav justify-content-center">
+</ul>
+<ul class="nav justify-content-end">
+<li class="nav-link"><a style='color:white' href="#">{{user}}</a></li>
+<li class="nav-link"><a style='color:white' href="/logout/" target="_top">退出</a></li>
+</ul>
+</div>
+</nav>
+<!-- 测试报告-->
+<div class="row" style="padding-top: 55px;">
+<div class="col-md-11">
+<table class="table table-striped">
+<div style="position:absolute; right:10px; width:10px; ">
+<tr><th></th><th></th><th></th><th></th><th></th><th>单一接口扫描-自动化测试汇总报告</th></tr>
+<tr><th>用例总数</th>
+<td>{{ apiscounts }}</td><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th><
+/th></tr> {# 前端读取定义的变量#}
+<tr><th>通过
+</th><td>{{ apis_pass_counts }}</td><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th
+></th><th></th></tr>
+<tr><th>不通过</th><td><a style='color:red'>{{ apis_fail_counts }}</a>
+</td><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+</div>
+</table>
+<!-- 单一接口测试用例-->
+<table class="table table-striped">
+<thead>
+<tr><th>失败接口列表</th><td>
+<tr>
+<th>ID</th><th>产品</th><th>测试用例名称</th><th>URL 地址</th><th>参数=值</th><th>方法</th><th>预期</th><th>
+测试结果</th><th>执行时间</th>
+</tr>
+</thead>
+<tbody>
+{% for apis in apiss %}
+<tr>
+{% if apis.apistatus == 0 %}
+<td>{{apis.id}}</td>
+<td>{{ apis.Product.productname }}</td>
+<td>{{ apis.apiname }}</td>
+<td>{{ apis.apiurl }}</td>
+<td>{{ apis.apiparamvalue }}</td>
+<td>{{ apis.apimethod }}</td>
+<td>{{ apis.apiresult }}</td>
+<td>{% if apis.apistatus == 1 %}
+<a style='color:green'>{{ apis.apistatus }}</a>
+{% else %}
+<a style='color:red'>{{ apis.apistatus }}</a>
+{% endif %}
+</td>
+<td>{{ apis.create_time }}</td>
+{% else %}
+{% endif %}
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</body>
+</html>
